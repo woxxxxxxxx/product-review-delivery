@@ -1,0 +1,6 @@
+interface:
+  display_name: "产品评审交付"
+  short_description: "按产品负责人视角输出业务 UI 研发可评审的方案和原型"
+  default_prompt: "使用 $product-review-delivery 将当前需求整理为可直接交付业务、UI、研发的产品方案，并检查页面对照、交互闭环和验收。"
+policy:
+  allow_implicit_invocation: true

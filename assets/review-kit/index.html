@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>服务申请 · 产品评审</title><link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="workbench.css"><link rel="stylesheet" href="flow.css"><link rel="stylesheet" href="audience.css"></head>
+<body>
+<a class="skip" href="#main">跳到正文</a>
+<aside class="sidebar">
+ <div class="workspace-name"><span class="workspace-icon" aria-hidden="true">▤</span> 产品评审</div>
+ <div class="project-name">服务申请 <span>示例</span></div>
+ <nav aria-label="评审内容">
+  <a href="#pages" class="active" aria-current="page"><span aria-hidden="true">▣</span> 页面原型</a>
+  <a href="#map"><span aria-hidden="true">⊞</span> 多端全景</a>
+  <a href="#overview"><span aria-hidden="true">☰</span> 需求说明</a>
+  <a href="#flow"><span aria-hidden="true">⑂</span> 状态流程</a>
+  <a href="#rules"><span aria-hidden="true">☑</span> 验收清单</a>
+  <a href="#decisions"><span aria-hidden="true">◷</span> 待确认事项 <small id="decisionCount"></small></a>
+ </nav>
+ <div class="side-bottom"><span class="status-dot"></span> 建议稿<br><small>通用示例，非线上页面</small></div>
+</aside>
+<main id="main" tabindex="-1">
+ <header class="top"><div><span id="title"></span><span class="divider">/</span><strong id="sectionTitle">页面原型</strong></div><span id="printMeta" class="print-only"></span><div class="top-actions"><span id="meta"></span><button id="print" class="secondary">打印</button></div></header>
+ <div class="audience-bar"><label for="audience">评审角色</label><select id="audience"><option value="business">业务</option><option value="design">UI / 设计</option><option value="frontend">前端</option><option value="backend">后端</option><option value="qa">测试</option><option value="all">产品 / 全部</option></select><span id="audienceHint"></span><label class="all-info"><input id="allInfo" type="checkbox"> 显示全部信息</label></div>
+ <section id="pages" class="view-section">
+  <div class="preview-toolbar"><div class="endpoint-tabs" role="group" aria-label="查看端"><button data-endpoint="app" aria-pressed="true"><span class="endpoint-dot blue"></span>APP</button><button data-endpoint="h5" aria-pressed="false"><span class="endpoint-dot violet"></span>H5端</button><button data-view="desktop" data-endpoint="desktop" aria-pressed="false"><span class="endpoint-dot teal"></span>PC 后台</button></div><div class="toolbar-actions"><button id="toolsToggle" class="secondary" aria-expanded="true" aria-controls="demoTools">演示条件</button><button id="notesToggle" class="secondary" aria-expanded="true" aria-controls="pageNotes">页面说明</button><button id="editToggle" class="edit-toggle" aria-pressed="false">编辑画布</button></div></div>
+  <div class="context-toolbar"><div class="segmented" role="group" aria-label="原型视图"><button data-view="proposal" aria-pressed="true">方案</button><button data-view="compare" aria-pressed="false">现状对照</button></div><span class="pill amber">现状未取证</span><span class="pill blue">本期方案</span><span id="draftBadge" class="pill violet" hidden>文案 / 布局已修改 · 待复核</span><button id="scenarioExit" class="text-button" hidden>退出场景预览</button></div>
+  <div id="editorBar" class="editor-bar" hidden><span>编辑模式</span><span id="saveStatus" role="status">未修改</span><div class="editor-actions"><button id="undoEdit" class="secondary">撤销</button><button id="redoEdit" class="secondary">重做</button><button id="saveDraft">保存草稿</button><button id="exportDraft" class="secondary">导出修改</button><button id="importDraft" class="secondary">导入修改</button><button id="exportHTML" class="secondary">导出 HTML</button><button id="exportHandoff" class="secondary">导出交接包</button></div><input id="draftFile" type="file" accept="application/json,.json" hidden></div>
+  <div id="demoTools" class="review-tools demo-steps">
+   <div class="demo-step"><label for="initial"><b>1</b> 入口状态</label><select id="initial" aria-describedby="entryHelp"><option value="form">可办理</option><option value="empty">暂无可办事项</option><option value="denied">无办理权限</option></select><small id="entryHelp">切换后重新开始，清除本次演示输入和记录。</small></div>
+   <div class="demo-step"><div class="demo-label"><b>2</b> 页面操作</div><strong id="stepHint">填写事项 → 核对 → 提交</strong><small id="stepDetail">在下方页面内完成操作。</small><button id="continueDemo" class="text-button" hidden>去用户端操作</button></div>
+   <div class="demo-step"><label for="outcome"><b>3</b> 模拟查询返回 · 选择即生效</label><select id="outcome" aria-describedby="queryHelp"><option value="">选择返回结果</option><option value="success">办理成功</option><option value="unknown">超时，结果未知</option><option value="failure">明确失败</option></select><small id="queryHelp">提交后才能查询。</small></div>
+   <div class="demo-footer"><span id="demoFeedback" role="status" aria-live="polite"></span><button id="reset" class="secondary">重新开始</button><a href="#map" id="seeExchange">查看端间流转 →</a><small>仅本地模拟，不请求真实服务</small></div>
+  </div>
+  <div id="annotationBanner" class="annotation-banner" hidden>规则标注层 · 仅评审可见，不属于用户界面 <button id="hideAnnotations" class="text-button">隐藏标注</button></div><div class="review-area">
+   <div class="preview-stage">
+    <div class="stage-heading"><span id="pageLabel">填写办理事项</span><span id="previewBadge">交互原型</span></div>
+    <div id="compare" class="compare proposal">
+     <article id="baseline" class="page-panel"><div class="panel-label">现状<span>待核实</span></div><div class="baseline-content" id="baselineContent"></div></article>
+     <article class="page-panel proposal-panel"><div class="panel-label">本期方案<span>移动端</span></div><div class="device"><div class="device-bar"><span>9:41</span><span aria-hidden="true">▰</span></div><div class="app-bar">服务中心</div><div class="product" id="canvas" aria-live="polite"></div><div class="home-indicator" aria-hidden="true"></div></div></article>
+    </div>
+    <div id="desktop" hidden><div class="admin"><header><div><small>业务工作台</small><h2>服务申请</h2></div><span class="badge">示例数据</span></header><div class="table-wrap"><table><thead><tr><th>申请编号</th><th>办理事项</th><th>申请人</th><th>当前状态</th><th>受理结果</th><th>执行结果</th><th>操作</th></tr></thead><tbody><tr><td>DEMO-001</td><td id="adminTopic">—</td><td>示例用户</td><td id="adminState">尚未提交</td><td id="adminAccepted">—</td><td id="adminResult">—</td><td><button id="adminDetail" class="text-button" aria-expanded="false">查看详情</button></td></tr></tbody></table></div><div id="adminInfo" hidden></div></div></div>
+    <p class="stage-caption">服务申请示例 · 本地演示 · 现状待核实</p>
+   </div>
+   <aside id="pageNotes" class="notes" aria-label="页面说明"></aside>
+   <aside id="editorPanel" class="editor-panel" hidden aria-label="编辑属性"><h2>选中内容</h2><p class="editor-hint">点击画布中的文字或按钮，直接输入修改。</p><div id="selectionName">尚未选择</div><label>文字<textarea id="editText" rows="3" disabled></textarea></label><div class="property-grid"><label>文字颜色<input id="editColor" type="color" value="#26282c" disabled></label><label>背景颜色<input id="editBackground" type="color" value="#ffffff" disabled></label><label>字号<select id="editSize" disabled><option value="">原始</option><option value="12px">12</option><option value="14px">14</option><option value="16px">16</option><option value="20px">20</option><option value="24px">24</option><option value="28px">28</option><option value="32px">32</option></select></label><label>对齐<select id="editAlign" disabled><option value="">原始</option><option value="left">左对齐</option><option value="center">居中</option><option value="right">右对齐</option></select></label></div><button id="restoreElement" class="secondary" disabled>恢复此元素</button><div class="editor-divider"></div><h3>组件位置</h3><p id="layoutHint" class="editor-hint">拖动画布组件右上角手柄调整顺序，也可用下方按钮。输入区保持完整，不支持跨页或任意坐标摆放。</p><div id="layoutList"></div><button id="restoreLayout" class="secondary">恢复默认顺序</button><p class="editor-hint">位置调整不改校验、权限和按钮动作，但可能影响阅读与操作顺序，需复核交互。</p><details class="handoff-help"><summary>版本交接</summary><p>交接包包含基础版本及文字、样式、组件顺序的修改记录。修改经评审确认后纳入新版本。浏览器草稿不会自动更新正式文件。</p><label for="handoffNote">本次调整说明（可选）</label><textarea id="handoffNote" rows="2" placeholder="说明修改目的或需要确认的问题"></textarea></details><div class="editor-divider"></div><h3>本次修改</h3><div id="changeList"></div><p class="editor-hint">“保存草稿”只保存在当前浏览器。需要分享或迁移时，请导出 HTML 或修改文件。不同设备和浏览器不会自动同步。</p></aside>
+  </div>
+ </section>
+ <section id="map" class="view-section document wide" hidden><div class="document-heading"><span class="doc-meta">服务申请 / 多端协作</span><h1>多端全景</h1><p>本期覆盖用户端申请、服务受理与后台查询。以下为方案示例，现网支持范围待核实。</p></div><div class="map-tabs segmented" role="group" aria-label="全景维度"><button data-map="matrix" aria-pressed="true">端与页面</button><button data-map="journey" aria-pressed="false">角色流程</button><button data-map="exchange" aria-pressed="false">端间数据</button><button data-map="coverage" aria-pressed="false">需求覆盖</button></div><div id="matrixView"></div><div id="journeyView" hidden></div><div id="coverageView" hidden></div><div id="exchangeView" hidden></div><div class="map-legend"><span class="pill blue">主路径</span><span class="pill teal">完成</span><span class="pill amber">待确认 / 结果未知</span><span class="pill red">明确失败</span><span class="pill violet">编辑草稿</span></div></section>
+ <section id="overview" class="view-section document" hidden>
+  <div class="document-heading"><span class="doc-meta">服务申请 / 建议稿</span><h1>需求说明</h1><p id="goal"></p></div>
+  <div id="summary" class="summary"></div><h2>业务规则</h2><div id="requirements"></div>
+  <div class="notice">方案范围：填写申请、提交前核对与结果查询。业务字段、办理条件和服务时限待确认。</div>
+ </section>
+ <section id="flow" class="view-section document wide" hidden>
+  <div class="document-heading"><span class="doc-meta">服务申请 / 流程</span><h1>状态流程</h1><p>受理不等于完成。结果未知时继续查询，不重复申请。</p></div>
+  <div class="flow-strip"><span>填写信息</span><b>→</b><span>核对申请</span><b>→</b><span>处理中</span><b>→</b><span>完成 / 失败 / 结果未知</span></div>
+  <h2>状态转移</h2><div class="table-wrap" id="transitionTable"></div>
+ </section>
+ <section id="rules" class="view-section document wide" hidden>
+  <div class="document-heading"><span class="doc-meta">服务申请 / 验收</span><h1>验收清单</h1><p>以下用例用于项目验收，当前均待执行。原型验证与真实服务验收分别记录。</p></div><div class="table-wrap" id="caseTable"></div>
+ </section>
+ <section id="decisions" class="view-section document" hidden>
+  <div class="document-heading"><span class="doc-meta">服务申请 / 评审</span><h1>待确认事项</h1><p>开发前需确认业务边界、处理责任与验收标准。</p></div><div id="decisionList"></div><details><summary>角色走查与现状证据</summary><div id="reviewList"></div><p id="evidenceSummary"></p></details>
+ </section>
+</main><script id="embeddedEdits" type="application/json">null</script><script src="data.js"></script><script src="presentation.js"></script><script src="app.js"></script><script src="workbench.js"></script><script src="flow.js"></script><script src="editor.js"></script><script src="rule-annotations.js"></script><script src="audience.js"></script><script src="bundle.js"></script></body></html>
